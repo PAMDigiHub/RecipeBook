@@ -19,8 +19,8 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ManageRecipeActivity"
-            android:label="@string/title_activity_manage_recipe"
+            android:name=".AddRecipeActivity"
+            android:label="@string/title_activity_add_recipe"
             android:parentActivityName=".RecipesActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data

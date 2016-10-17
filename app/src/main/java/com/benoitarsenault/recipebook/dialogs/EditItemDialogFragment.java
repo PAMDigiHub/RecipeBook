@@ -22,29 +22,32 @@ public class EditItemDialogFragment extends DialogFragment {
    public static final String ARG_TEXT = "text";
    public static final String ARG_TITLE = "title";
     public static final String ARG_POSITIVETEXT = "positiveText";
+    public static final String ARG_REQUEST_CODE = "requestCode";
 
-   private EditText editText;
+    private EditText editText;
    private boolean allowEmptyText = false;
    private EditItemDialogListener listener;
 
 
-    public static EditItemDialogFragment newInstance(String text, String title) {
+    public static EditItemDialogFragment newInstance(String text, String title,int requestCode) {
 
         Bundle args = new Bundle();
         args.putString(ARG_TEXT,text);
         args.putString(ARG_TITLE,title);
+        args.putInt(ARG_REQUEST_CODE,requestCode);
 
         EditItemDialogFragment fragment = new EditItemDialogFragment();
         fragment.setArguments(args);
         return fragment;
     }
 
-    public static EditItemDialogFragment newInstance(String text, String title, String positiveButtonText) {
+    public static EditItemDialogFragment newInstance(String text, String title, String positiveButtonText,int requestCode) {
 
         Bundle args = new Bundle();
         args.putString(ARG_TEXT,text);
         args.putString(ARG_TITLE,title);
         args.putString(ARG_POSITIVETEXT,positiveButtonText);
+        args.putInt(ARG_REQUEST_CODE,requestCode);
 
         EditItemDialogFragment fragment = new EditItemDialogFragment();
         fragment.setArguments(args);
@@ -61,6 +64,7 @@ public class EditItemDialogFragment extends DialogFragment {
 
        String text = getArguments().getString(ARG_TEXT);
        String title = getArguments().getString(ARG_TITLE);
+       final int requestCode = getArguments().getInt(ARG_REQUEST_CODE);
        String positiveText = "Apply";
        if(getArguments().getString(ARG_POSITIVETEXT)!=null){
            positiveText = getArguments().getString(ARG_POSITIVETEXT);
@@ -80,7 +84,7 @@ public class EditItemDialogFragment extends DialogFragment {
                            Toast.makeText(getContext(), "Empty text is not allowed", Toast.LENGTH_SHORT).show();
 
                        } else {
-                           listener.onEditItemDialogPositiveClick(EditItemDialogFragment.this,editText.getText().toString());
+                           listener.onEditItemDialogPositiveClick(getTag(),requestCode,editText.getText().toString());
                        }
                    }
                })
@@ -90,7 +94,7 @@ public class EditItemDialogFragment extends DialogFragment {
    }
 
    public interface EditItemDialogListener {
-       void onEditItemDialogPositiveClick(EditItemDialogFragment dialogFragment, String newText);
+       void onEditItemDialogPositiveClick(String tag,  int requestCode,String newText);
    }
 
    @Override

@@ -8,14 +8,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
-import com.benoitarsenault.recipebook.dialogs.EditItemDialogFragment;
-
-public class ManageRecipeActivity extends AppCompatActivity implements SimpleListFragment.OnFragmentInteractionListener, EditItemDialogFragment.EditItemDialogListener{
+public class AddRecipeActivity extends AppCompatActivity implements SimpleListFragment.OnFragmentInteractionListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_manage_recipe);
+        setContentView(R.layout.activity_add_recipe);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -32,11 +30,6 @@ public class ManageRecipeActivity extends AppCompatActivity implements SimpleLis
 
     @Override
     public void onFragmentInteraction(Uri uri) {
-
-    }
-
-    @Override
-    public void onEditItemDialogPositiveClick(EditItemDialogFragment dialogFragment, String newText) {
 
     }
 }

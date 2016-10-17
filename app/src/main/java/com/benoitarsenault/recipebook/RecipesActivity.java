@@ -1,6 +1,7 @@
 package com.benoitarsenault.recipebook;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -23,7 +24,7 @@ import com.benoitarsenault.recipebook.model.adapters.RecipesAdapter;
 
 import java.util.ArrayList;
 
-public class RecipesActivity extends AppCompatActivity {
+public class RecipesActivity extends AppCompatActivity implements SimpleListFragment.OnFragmentInteractionListener{
 
     private static final String KEY_SORT_ORDER = "KEY_SORT_ORDER";
     private static final String KEY_SEARCH_CRITERIA = "KEY_SEARCH_CRITERIA";
@@ -44,7 +45,8 @@ public class RecipesActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(RecipesActivity.this,ManageRecipeActivity.class);
+                Intent intent = new Intent(RecipesActivity.this,AddRecipeActivity.class);
+
                 startActivity(intent);
             }
         });
@@ -148,5 +150,10 @@ public class RecipesActivity extends AppCompatActivity {
     private void refreshCursor() {
         adapter.changeCursor(RecipesProvider.getInstance().getOrderedRecipes(this, searchCriteria, sortOrder));
         adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
     }
 }
