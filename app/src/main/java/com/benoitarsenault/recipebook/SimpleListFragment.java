@@ -8,21 +8,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.Spinner;
 
 import com.benoitarsenault.recipebook.dialogs.EditItemDialogFragment;
 
 import java.util.ArrayList;
-import java.util.List;
 
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link SimpleListFragment.OnFragmentInteractionListener} interface
+ * {@link OnSimpleListFragmentInteractionListener} interface
  * to handle interaction events.
  * Use the {@link SimpleListFragment#newInstance} factory method to
  * create an instance of this fragment.
@@ -45,7 +42,7 @@ public class SimpleListFragment extends android.support.v4.app.Fragment implemen
     private ImageButton addButton;
 
 
-    private OnFragmentInteractionListener mListener;
+    private OnSimpleListFragmentInteractionListener mListener;
 
     public SimpleListFragment() {
         // Required empty public constructor
@@ -108,22 +105,22 @@ public class SimpleListFragment extends android.support.v4.app.Fragment implemen
 
         return layout;
     }
-
+/*
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
+            mListener.onSimpleListFragmentItemsChanged(uri);
         }
-    }
+    }*/
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
+        if (context instanceof OnSimpleListFragmentInteractionListener) {
+            mListener = (OnSimpleListFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
+                    + " must implement OnSimpleListFragmentInteractionListener");
         }
     }
 
@@ -139,6 +136,7 @@ public class SimpleListFragment extends android.support.v4.app.Fragment implemen
         if(tag.equals(TAG_ADD)) {
             addItem(newText);
         }
+        mListener.onSimpleListFragmentItemsChanged(getId());
 
     }
 
@@ -152,9 +150,8 @@ public class SimpleListFragment extends android.support.v4.app.Fragment implemen
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
      */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
+    public interface OnSimpleListFragmentInteractionListener {
+        void onSimpleListFragmentItemsChanged(int fragmentId);
     }
 
     public ArrayList<String> getItems() {

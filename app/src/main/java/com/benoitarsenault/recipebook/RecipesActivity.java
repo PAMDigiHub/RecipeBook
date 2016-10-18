@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -13,18 +12,13 @@ import android.view.MenuItem;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
-import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
 
-import com.benoitarsenault.recipebook.model.Recipe;
 import com.benoitarsenault.recipebook.model.RecipesProvider;
 import com.benoitarsenault.recipebook.model.SortOrder;
 import com.benoitarsenault.recipebook.model.adapters.RecipesAdapter;
 
-import java.util.ArrayList;
-
-public class RecipesActivity extends AppCompatActivity implements SimpleListFragment.OnFragmentInteractionListener{
+public class RecipesActivity extends AppCompatActivity {
 
     private static final String KEY_SORT_ORDER = "KEY_SORT_ORDER";
     private static final String KEY_SEARCH_CRITERIA = "KEY_SEARCH_CRITERIA";
@@ -102,7 +96,7 @@ public class RecipesActivity extends AppCompatActivity implements SimpleListFrag
     @Override
     protected void onResume() {
         super.onResume();
-        adapter.notifyDataSetChanged();
+        refreshCursor();
     }
 
     @Override
@@ -152,8 +146,5 @@ public class RecipesActivity extends AppCompatActivity implements SimpleListFrag
         adapter.notifyDataSetChanged();
     }
 
-    @Override
-    public void onFragmentInteraction(Uri uri) {
 
-    }
 }
