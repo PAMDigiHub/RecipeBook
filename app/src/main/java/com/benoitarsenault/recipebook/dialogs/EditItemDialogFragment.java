@@ -3,8 +3,8 @@ package com.benoitarsenault.recipebook.dialogs;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +17,7 @@ import com.benoitarsenault.recipebook.R;
 /**
 * Created by Benoit Arsenault on 2016-09-19.
 */
-public class EditItemDialogFragment extends DialogFragment {
+public class EditItemDialogFragment extends android.support.v4.app.DialogFragment {
 
    public static final String ARG_TEXT = "text";
    public static final String ARG_TITLE = "title";
@@ -29,25 +29,25 @@ public class EditItemDialogFragment extends DialogFragment {
    private EditItemDialogListener listener;
 
 
-    public static EditItemDialogFragment newInstance(String text, String title,int requestCode) {
+    public static EditItemDialogFragment newInstance(String text, String title/*,int requestCode*/) {
 
         Bundle args = new Bundle();
         args.putString(ARG_TEXT,text);
         args.putString(ARG_TITLE,title);
-        args.putInt(ARG_REQUEST_CODE,requestCode);
+       /* args.putInt(ARG_REQUEST_CODE,requestCode);*/
 
         EditItemDialogFragment fragment = new EditItemDialogFragment();
         fragment.setArguments(args);
         return fragment;
     }
 
-    public static EditItemDialogFragment newInstance(String text, String title, String positiveButtonText,int requestCode) {
+    public static EditItemDialogFragment newInstance(String text, String title, String positiveButtonText/*,int requestCode*/) {
 
         Bundle args = new Bundle();
         args.putString(ARG_TEXT,text);
         args.putString(ARG_TITLE,title);
         args.putString(ARG_POSITIVETEXT,positiveButtonText);
-        args.putInt(ARG_REQUEST_CODE,requestCode);
+        /*args.putInt(ARG_REQUEST_CODE,requestCode);*/
 
         EditItemDialogFragment fragment = new EditItemDialogFragment();
         fragment.setArguments(args);
@@ -75,6 +75,9 @@ public class EditItemDialogFragment extends DialogFragment {
        editText.setSelection(editText.getText().length());
        editText.requestFocus();
 
+       listener = (EditItemDialogListener) getTargetFragment();
+
+
        builder.setTitle(title)
                .setView(view)
                .setPositiveButton(positiveText, new DialogInterface.OnClickListener() {
@@ -96,7 +99,7 @@ public class EditItemDialogFragment extends DialogFragment {
    public interface EditItemDialogListener {
        void onEditItemDialogPositiveClick(String tag,  int requestCode,String newText);
    }
-
+/*
    @Override
    public void onAttach(Activity activity) {
        super.onAttach(activity);
@@ -107,9 +110,11 @@ public class EditItemDialogFragment extends DialogFragment {
            throw new ClassCastException(activity.toString()
                    + " must implement EditItemDialogListener");
        }
-   }
+   }*/
 
-   public boolean isAllowEmptyText() {
+
+
+    public boolean isAllowEmptyText() {
        return allowEmptyText;
    }
 

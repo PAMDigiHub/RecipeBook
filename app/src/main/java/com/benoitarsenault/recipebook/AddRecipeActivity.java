@@ -7,8 +7,13 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 public class AddRecipeActivity extends AppCompatActivity implements SimpleListFragment.OnFragmentInteractionListener {
+
+    private ArrayAdapter<CharSequence> spinnerAdapter;
+    private Spinner spinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +31,12 @@ public class AddRecipeActivity extends AppCompatActivity implements SimpleListFr
             }
         });
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+
+        spinner = (Spinner) findViewById(R.id.portion_spinner);
+        spinnerAdapter = ArrayAdapter.createFromResource(AddRecipeActivity.this,R.array.portions_choices,android.R.layout.simple_spinner_item);
+        spinner.setAdapter(spinnerAdapter);
+
     }
 
     @Override
