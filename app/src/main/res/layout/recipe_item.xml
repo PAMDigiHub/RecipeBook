@@ -14,17 +14,20 @@
         android:text="Recipe"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/recipe_item_title" />
+        android:id="@+id/recipe_item_title"
+        android:textAppearance="@android:style/TextAppearance.Material.Large" />
 
     <TextView
         android:text="Duration"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/recipe_item_duration" />
+        android:id="@+id/recipe_item_duration"
+        android:textAppearance="@android:style/TextAppearance.Material.Large" />
 
     <TextView
         android:text="Portions"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/recipe_item_portions" />
+        android:id="@+id/recipe_item_portions"
+        android:textAppearance="@android:style/TextAppearance.Material.Large" />
 </LinearLayout>

@@ -7,6 +7,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.text.TextUtils;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 
 /**
@@ -48,7 +50,8 @@ public class RecipesDbHelper extends SQLiteOpenHelper {
 
     public static ArrayList<String> splitToArrayList(String joinedString) {
         ArrayList<String> list = new ArrayList<>();
-        for (String item : TextUtils.split(joinedString, "|")) {
+        String[] splitResult = TextUtils.split(joinedString, "\\|");
+        for (String item : splitResult) {
             list.add(item);
         }
         return list;

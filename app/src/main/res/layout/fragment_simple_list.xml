@@ -12,7 +12,8 @@
         android:text="List name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/fragment_simple_name_textview" />
+        android:id="@+id/fragment_simple_name_textview"
+        android:textAppearance="@android:style/TextAppearance.Material.Large" />
 
     <ImageButton
         android:layout_width="match_parent"

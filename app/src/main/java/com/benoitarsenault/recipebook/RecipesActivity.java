@@ -1,6 +1,7 @@
 package com.benoitarsenault.recipebook;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -14,6 +15,8 @@ import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.Spinner;
 
+import com.benoitarsenault.recipebook.model.Recipe;
+import com.benoitarsenault.recipebook.model.RecipesDbHelper;
 import com.benoitarsenault.recipebook.model.RecipesProvider;
 import com.benoitarsenault.recipebook.model.SortOrder;
 import com.benoitarsenault.recipebook.model.adapters.RecipesAdapter;
@@ -64,6 +67,16 @@ public class RecipesActivity extends AppCompatActivity {
         adapter = new RecipesAdapter(RecipesActivity.this, RecipesProvider.getInstance().getOrderedRecipes(RecipesActivity.this,searchCriteria,sortOrder));
         recipeGridView = (GridView) findViewById(R.id.recipe_gridview);
         recipeGridView.setAdapter(adapter);
+        recipeGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Recipe selectedRecipe = (Recipe) RecipesDbHelper.recipeFromCursor((Cursor) adapter.getItem(position));
+
+                Intent editRecipeIntent = new Intent(RecipesActivity.this,EditRecipeActivity.class);
+                editRecipeIntent.putExtra(EditRecipeActivity.EXTRA_RECIPE_ID,selectedRecipe.getId());
+                startActivity(editRecipeIntent);
+            }
+        });
 
         Spinner spinner = (Spinner) findViewById(R.id.recipe_spinner);
 

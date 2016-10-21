@@ -4,33 +4,45 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:text="Name"
-        android:ems="10"
-        android:id="@+id/recipe_form_name_edit_text"
-        android:contentDescription="Recipe name" />
-
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <include
+        <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            layout="@layout/duration"
-            android:layout_weight="1"
-            android:id="@+id/recipe_form_duration" />
+            android:inputType="textPersonName"
+            android:ems="10"
+            android:id="@+id/recipe_form_name_edit_text"
+            android:contentDescription="Recipe name"
+            android:layout_weight="1" />
 
-        <include
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            layout="@layout/portion"
-            android:layout_weight="1"
-            android:id="@+id/recipe_form_portion" />
+            android:layout_weight="1">
+
+            <include
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                layout="@layout/portion"
+                android:layout_weight="1"
+                android:id="@+id/recipe_form_portion" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:layout_height="15dp" />
+
+            <include
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                layout="@layout/duration"
+                android:layout_weight="1"
+                android:id="@+id/recipe_form_duration" />
+        </LinearLayout>
 
     </LinearLayout>
 

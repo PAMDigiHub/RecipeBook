@@ -34,4 +34,8 @@ public class RecipesProvider {
     public void addItem(Recipe recipe, Context context){
         db(context).insertRecipe(recipe);
     }
+
+    public void updateItem(Recipe recipe, Context context){
+        db(context).update(recipe);
+    }
 }
