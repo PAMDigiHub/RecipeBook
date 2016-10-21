@@ -42,22 +42,32 @@
                 layout="@layout/duration"
                 android:layout_weight="1"
                 android:id="@+id/recipe_form_duration" />
+
         </LinearLayout>
 
     </LinearLayout>
 
-    <fragment
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:name="com.benoitarsenault.recipebook.SimpleListFragment"
-        android:id="@+id/recipe_form_fragment_ingredients"
-        tools:layout="@layout/fragment_simple_list" />
+        android:layout_height="match_parent">
 
-    <fragment
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:name="com.benoitarsenault.recipebook.SimpleListFragment"
-        android:id="@+id/recipe_form_fragment_steps"
-        tools:layout="@layout/fragment_simple_list" />
+        <fragment
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:name="com.benoitarsenault.recipebook.SimpleListFragment"
+            android:id="@+id/recipe_form_fragment_ingredients"
+            tools:layout="@layout/fragment_simple_list"
+            android:layout_weight="100" />
+
+        <fragment
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:name="com.benoitarsenault.recipebook.SimpleListFragment"
+            android:id="@+id/recipe_form_fragment_steps"
+            tools:layout="@layout/fragment_simple_list"
+            android:layout_weight="50" />
+
+    </LinearLayout>
 
 </LinearLayout>

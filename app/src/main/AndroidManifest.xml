@@ -22,7 +22,8 @@
             android:name=".AddRecipeActivity"
             android:label="@string/title_activity_add_recipe"
             android:parentActivityName=".RecipesActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.benoitarsenault.recipebook.RecipesActivity" />
@@ -31,7 +32,8 @@
             android:name=".EditRecipeActivity"
             android:label="@string/title_activity_edit_recipe"
             android:parentActivityName=".RecipesActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.benoitarsenault.recipebook.RecipesActivity" />
