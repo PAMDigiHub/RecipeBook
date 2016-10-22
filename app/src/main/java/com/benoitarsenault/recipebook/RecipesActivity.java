@@ -56,14 +56,6 @@ public class RecipesActivity extends AppCompatActivity {
             sortOrder = SortOrder.ASC;
         }
 
-/*
-        ArrayList<String> ingredients = new ArrayList<>();
-        ingredients.add("Bacon");
-        ArrayList<String> steps = new ArrayList<>();
-        steps.add("ajouter bacon");
-        Recipe recipe = new Recipe("title","15 minutes",4,ingredients,steps);
-        RecipesProvider.getInstance().addItem(recipe,RecipesActivity.this);
-*/
         adapter = new RecipesAdapter(RecipesActivity.this, RecipesProvider.getInstance().getOrderedRecipes(RecipesActivity.this,searchCriteria,sortOrder));
         recipeGridView = (GridView) findViewById(R.id.recipe_gridview);
         recipeGridView.setAdapter(adapter);

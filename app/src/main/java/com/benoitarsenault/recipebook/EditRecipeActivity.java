@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
 import com.benoitarsenault.recipebook.dialogs.DeleteRecipeDialogFragment;
@@ -63,8 +64,11 @@ public class EditRecipeActivity extends AppCompatActivity implements SimpleListF
 
         portionSpinner = (Spinner) findViewById(R.id.portion_spinner);
         spinnerAdapter = ArrayAdapter.createFromResource(this, R.array.portions_choices, android.R.layout.simple_spinner_item);
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        //portionSpinner.set
         portionSpinner.setAdapter(spinnerAdapter);
         portionSpinner.setSelection(recipe.getPortions() - 1);
+
 
 
         ingredientFragment = (SimpleListFragment) getSupportFragmentManager().findFragmentById(R.id.recipe_form_fragment_ingredients);
@@ -96,14 +100,6 @@ public class EditRecipeActivity extends AppCompatActivity implements SimpleListF
             }
         });
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
     }
