@@ -21,6 +21,10 @@ import java.util.ArrayList;
 public class AddRecipeActivity extends AppCompatActivity implements SimpleListFragment.OnSimpleListFragmentInteractionListener, DurationDialogFragment.DurationDialogListener {
 
     private static final String TAG_DURATION = "duration";
+    private static final String STATE_DURATION = "stateDuration";
+    private static final String STATE_INGREDIENTS = "stateIngredients";
+    private static final String STATE_STEPS = "stateSteps";
+
     private ArrayAdapter<CharSequence> spinnerAdapter;
     private Spinner portionSpinner;
     private TextView nameTextView;
@@ -79,8 +83,26 @@ public class AddRecipeActivity extends AppCompatActivity implements SimpleListFr
                 }
             }
         });
+
+        if(savedInstanceState!=null){
+            //recipeId =  savedInstanceState.getInt(EXTRA_RECIPE_ID);
+            durationTextView.setText(savedInstanceState.getString(STATE_DURATION));
+            ingredientFragment.setItems(savedInstanceState.getStringArrayList(STATE_INGREDIENTS));
+            stepsFragment.setItems(savedInstanceState.getStringArrayList(STATE_STEPS));
+
+        }
+
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+       // outState.putInt(EXTRA_RECIPE_ID,recipeId);
+        outState.putString(STATE_DURATION,durationTextView.getText().toString());
+        outState.putStringArrayList(STATE_INGREDIENTS,ingredientFragment.getItems());
+        outState.putStringArrayList(STATE_STEPS,stepsFragment.getItems());
+
+        super.onSaveInstanceState(outState);
+    }
 
     @Override
     public void onSimpleListFragmentItemsChanged(int fragmentId) {

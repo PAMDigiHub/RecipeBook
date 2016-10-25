@@ -28,6 +28,9 @@ public class EditRecipeActivity extends AppCompatActivity implements SimpleListF
 
     public static final String EXTRA_RECIPE_ID = "recipeId";
     private static final String TAG_DURATION = "duration";
+    private static final String STATE_DURATION = "stateDuration";
+    private static final String STATE_INGREDIENTS = "stateIngredients";
+    private static final String STATE_STEPS = "stateSteps";
 
     public int recipeId;
 
@@ -48,12 +51,8 @@ public class EditRecipeActivity extends AppCompatActivity implements SimpleListF
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        if(savedInstanceState!=null){
-            recipeId =  savedInstanceState.getInt(EXTRA_RECIPE_ID);
-        }else {
-            recipeId = getIntent().getExtras().getInt(EXTRA_RECIPE_ID);
-        }
 
+        recipeId = getIntent().getExtras().getInt(EXTRA_RECIPE_ID);
         recipe = RecipesProvider.getInstance().getItemById(recipeId, this);
 
         getSupportActionBar().setTitle(recipe.getTitle());
@@ -106,6 +105,13 @@ public class EditRecipeActivity extends AppCompatActivity implements SimpleListF
         });
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        if (savedInstanceState != null) {
+            recipeId = savedInstanceState.getInt(EXTRA_RECIPE_ID);
+            durationTextView.setText(savedInstanceState.getString(STATE_DURATION));
+            ingredientFragment.setItems(savedInstanceState.getStringArrayList(STATE_INGREDIENTS));
+            stepsFragment.setItems(savedInstanceState.getStringArrayList(STATE_STEPS));
+        }
     }
 
     @Override
@@ -152,11 +158,11 @@ public class EditRecipeActivity extends AppCompatActivity implements SimpleListF
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_presentation) {
-           Intent intent = new Intent(EditRecipeActivity.this,PresentationActivity.class);
-            intent.putExtra(EXTRA_RECIPE_ID,recipe.getId());
+            Intent intent = new Intent(EditRecipeActivity.this, PresentationActivity.class);
+            intent.putExtra(EXTRA_RECIPE_ID, recipe.getId());
             startActivity(intent);
         }
-        if(id==R.id.action_sendmail){
+        if (id == R.id.action_sendmail) {
             sendMail();
         }
 
@@ -166,18 +172,18 @@ public class EditRecipeActivity extends AppCompatActivity implements SimpleListF
 
     private void sendMail() {
         String email = "";
-        String subject = "Recipe "+recipe.getTitle();
+        String subject = "Recipe " + recipe.getTitle();
 
         StringBuilder sb = new StringBuilder();
         String newLine = System.lineSeparator();
-        sb.append("Title:" + recipe.getTitle()+newLine);
-        sb.append("Duration : "+recipe.getDuration()+newLine);
-        sb.append("Portions : "+recipe.getPortions()+newLine);
-        sb.append("Ingredients : "+recipe.getIngredients()+newLine);
-        sb.append("Steps :"+recipe.getSteps()+newLine);
+        sb.append("Title:" + recipe.getTitle() + newLine);
+        sb.append("Duration : " + recipe.getDuration() + newLine);
+        sb.append("Portions : " + recipe.getPortions() + newLine);
+        sb.append("Ingredients : " + recipe.getIngredients() + newLine);
+        sb.append("Steps :" + recipe.getSteps() + newLine);
         String body = sb.toString();
 
-        String chooserTitle = "Send "+recipe.getTitle() + "as mail";
+        String chooserTitle = "Send " + recipe.getTitle() + "as mail";
 
         Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:" + email));
         emailIntent.putExtra(Intent.EXTRA_SUBJECT, subject);
@@ -188,7 +194,11 @@ public class EditRecipeActivity extends AppCompatActivity implements SimpleListF
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        outState.putInt(EXTRA_RECIPE_ID,recipeId);
+        outState.putInt(EXTRA_RECIPE_ID, recipeId);
+        outState.putString(STATE_DURATION, durationTextView.getText().toString());
+        outState.putStringArrayList(STATE_INGREDIENTS, ingredientFragment.getItems());
+        outState.putStringArrayList(STATE_STEPS, stepsFragment.getItems());
+
         super.onSaveInstanceState(outState);
     }
 }

@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.benoitarsenault.recipebook.dialogs.PresentationLastPageDialog;
 import com.benoitarsenault.recipebook.model.Recipe;
 import com.benoitarsenault.recipebook.model.RecipesProvider;
 
@@ -60,7 +61,8 @@ public class PresentationActivity extends AppCompatActivity implements Presentat
         public void onPageSelected(int position) {
            if(position==mSectionsPagerAdapter.getCount()-1){
                // TODO: 2016-10-25 pop a dialog
-                Toast.makeText(PresentationActivity.this, position+ " last slide", Toast.LENGTH_SHORT).show();
+               PresentationLastPageDialog dialog = PresentationLastPageDialog.newInstance();
+               dialog.show(getSupportFragmentManager(),"lastPage");
            }
         }
     }
