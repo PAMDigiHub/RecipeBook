@@ -13,7 +13,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.benoitarsenault.recipebook.dialogs.AddFragmentItemDialog;
-import com.benoitarsenault.recipebook.dialogs.DeleteFragmentItemDialog;
+import com.benoitarsenault.recipebook.dialogs.ManageFragmentItemDialog;
 import com.benoitarsenault.recipebook.dialogs.UpdateFragmentItemDialog;
 
 import java.util.ArrayList;
@@ -27,7 +27,7 @@ import java.util.ArrayList;
  * Use the {@link SimpleListFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class SimpleListFragment extends android.support.v4.app.Fragment implements AddFragmentItemDialog.AddFragmentItemDialogListener,UpdateFragmentItemDialog.UpdateFragmentItemDialogListener, DeleteFragmentItemDialog.DeleteFragmentItemDialogListener {
+public class SimpleListFragment extends android.support.v4.app.Fragment implements AddFragmentItemDialog.AddFragmentItemDialogListener,UpdateFragmentItemDialog.UpdateFragmentItemDialogListener, ManageFragmentItemDialog.ManageFragmentItemDialogListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -35,7 +35,7 @@ public class SimpleListFragment extends android.support.v4.app.Fragment implemen
     private static final String TAG_ADD = "add";
     private static final String TAG_RENAME = "rename";
     private static final String TAG_UPDATE = "update";
-    private static final String TAG_DELETE = "delete" ;
+    private static final String TAG_MANAGE = "manage" ;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -103,9 +103,9 @@ public class SimpleListFragment extends android.support.v4.app.Fragment implemen
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                DeleteFragmentItemDialog dialog = DeleteFragmentItemDialog.newInstance(position);
+                ManageFragmentItemDialog dialog = ManageFragmentItemDialog.newInstance(position,adapter.getItem(position));
                 dialog.setTargetFragment(SimpleListFragment.this,0);
-                dialog.show(getFragmentManager(),TAG_DELETE);
+                dialog.show(getFragmentManager(), TAG_MANAGE);
                 return true;
             }
         });
@@ -160,8 +160,15 @@ public class SimpleListFragment extends android.support.v4.app.Fragment implemen
     }
 
     @Override
-    public void deleteFragmentItemDialogPositiveClick(String tag, int position) {
+    public void manageFragmentItemDialogUpdateClick(String tag, int position, String newText) {
+        update(newText,position);
+        mListener.onSimpleListFragmentItemsChanged(getId());
+    }
+
+    @Override
+    public void manageFragmentItemDialogDeleteClick(String tag, int position) {
         deleteItem(position);
+        mListener.onSimpleListFragmentItemsChanged(getId());
     }
 
 

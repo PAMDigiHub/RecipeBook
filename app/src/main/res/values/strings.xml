@@ -25,6 +25,8 @@
     <string name="title_activity_manage_recipe">ManageRecipeActivity</string>
     <string name="title_activity_add_recipe">AddRecipeActivity</string>
     <string name="title_activity_edit_recipe">EditRecipeActivity</string>
+    <string name="title_activity_presentation">PresentationActivity</string>
+    <string name="section_format">Hello World from section: %1$d</string>
 
 
 </resources>

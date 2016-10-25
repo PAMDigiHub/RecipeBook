@@ -13,7 +13,6 @@ import android.os.Bundle;
 
 public class DeleteRecipeDialogFragment extends DialogFragment {
 
-    private static final String ARG_ID = "Id";
     private DeleteRecipeDialogListener listener;
 
     public static DeleteRecipeDialogFragment newInstance() {

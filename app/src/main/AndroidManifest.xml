@@ -38,6 +38,15 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.benoitarsenault.recipebook.RecipesActivity" />
         </activity>
+        <activity
+            android:name=".PresentationActivity"
+            android:label="@string/title_activity_presentation"
+            android:parentActivityName=".EditRecipeActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.benoitarsenault.recipebook.EditRecipeActivity" />
+        </activity>
     </application>
 
 </manifest>

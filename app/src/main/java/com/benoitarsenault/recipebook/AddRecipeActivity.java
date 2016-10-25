@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.benoitarsenault.recipebook.dialogs.DurationDialogFragment;
 import com.benoitarsenault.recipebook.model.Recipe;
@@ -62,15 +63,19 @@ public class AddRecipeActivity extends AppCompatActivity implements SimpleListFr
             @Override
             public void onClick(View v) {
 
-                String title = nameTextView.getText().toString();
-                String duration = durationTextView.getText().toString();
-                int portions = Integer.parseInt(portionSpinner.getSelectedItem().toString());
-                ArrayList<String> ingredients = ingredientFragment.getItems();
-                ArrayList<String> steps = stepsFragment.getItems();
+                if(nameTextView.getText().length()>0) {
+                    String title = nameTextView.getText().toString();
+                    String duration = durationTextView.getText().toString();
+                    int portions = Integer.parseInt(portionSpinner.getSelectedItem().toString());
+                    ArrayList<String> ingredients = ingredientFragment.getItems();
+                    ArrayList<String> steps = stepsFragment.getItems();
 
-                Recipe recipe = new Recipe(title,duration,portions,ingredients,steps);
-                RecipesProvider.getInstance().addItem(recipe,AddRecipeActivity.this);
-                finish();
+                    Recipe recipe = new Recipe(title, duration, portions, ingredients, steps);
+                    RecipesProvider.getInstance().addItem(recipe, AddRecipeActivity.this);
+                    finish();
+                }else{
+                    Toast.makeText(AddRecipeActivity.this, "The name of the recipe must not be empty", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
@@ -78,12 +83,6 @@ public class AddRecipeActivity extends AppCompatActivity implements SimpleListFr
 
     @Override
     public void onSimpleListFragmentItemsChanged(int fragmentId) {
-        if(fragmentId==R.id.recipe_form_fragment_ingredients){
-
-        }
-        if(fragmentId==R.id.recipe_form_fragment_steps){
-
-        }
 
     }
 

@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
@@ -14,6 +15,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.Spinner;
+import android.widget.SearchView;
 
 import com.benoitarsenault.recipebook.model.Recipe;
 import com.benoitarsenault.recipebook.model.RecipesDbHelper;
@@ -30,6 +32,7 @@ public class RecipesActivity extends AppCompatActivity {
     private RecipesAdapter adapter;
     private String searchCriteria;
     private SortOrder sortOrder;
+    private SearchView searchView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +58,7 @@ public class RecipesActivity extends AppCompatActivity {
             searchCriteria = "";
             sortOrder = SortOrder.ASC;
         }
+
 
         adapter = new RecipesAdapter(RecipesActivity.this, RecipesProvider.getInstance().getOrderedRecipes(RecipesActivity.this,searchCriteria,sortOrder));
         recipeGridView = (GridView) findViewById(R.id.recipe_gridview);
@@ -96,6 +100,21 @@ public class RecipesActivity extends AppCompatActivity {
             }
         });
 
+        searchView = (SearchView) findViewById(R.id.recipe_searchview);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                refreshCursor();
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                searchCriteria = newText;
+                refreshCursor();
+                return false;
+            }
+        });
     }
 
     @Override
