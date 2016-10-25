@@ -40,6 +40,7 @@ public class AddRecipeActivity extends AppCompatActivity implements SimpleListFr
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         nameTextView = (TextView) findViewById(R.id.recipe_form_name_edit_text);
+
         durationTextView = (TextView) findViewById(R.id.duration_textview);
         durationTextView.setOnClickListener(new View.OnClickListener() {
             @Override

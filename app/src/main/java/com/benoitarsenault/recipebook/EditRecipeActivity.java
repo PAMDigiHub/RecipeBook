@@ -1,10 +1,14 @@
 package com.benoitarsenault.recipebook;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -44,7 +48,11 @@ public class EditRecipeActivity extends AppCompatActivity implements SimpleListF
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        recipeId = getIntent().getExtras().getInt(EXTRA_RECIPE_ID);
+        if(savedInstanceState!=null){
+            recipeId =  savedInstanceState.getInt(EXTRA_RECIPE_ID);
+        }else {
+            recipeId = getIntent().getExtras().getInt(EXTRA_RECIPE_ID);
+        }
 
         recipe = RecipesProvider.getInstance().getItemById(recipeId, this);
 
@@ -65,11 +73,8 @@ public class EditRecipeActivity extends AppCompatActivity implements SimpleListF
         portionSpinner = (Spinner) findViewById(R.id.portion_spinner);
         spinnerAdapter = ArrayAdapter.createFromResource(this, R.array.portions_choices, android.R.layout.simple_spinner_item);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        //portionSpinner.set
         portionSpinner.setAdapter(spinnerAdapter);
         portionSpinner.setSelection(recipe.getPortions() - 1);
-
-
 
         ingredientFragment = (SimpleListFragment) getSupportFragmentManager().findFragmentById(R.id.recipe_form_fragment_ingredients);
         ingredientFragment.setTitle("Ingredients");
@@ -101,7 +106,6 @@ public class EditRecipeActivity extends AppCompatActivity implements SimpleListF
         });
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
     }
 
     @Override
@@ -130,5 +134,61 @@ public class EditRecipeActivity extends AppCompatActivity implements SimpleListF
     @Override
     public void onDurationSelectedPositiveClick(String duration) {
         durationTextView.setText(duration);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_edit_recipe, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_presentation) {
+           Intent intent = new Intent(EditRecipeActivity.this,PresentationActivity.class);
+            intent.putExtra(EXTRA_RECIPE_ID,recipe.getId());
+            startActivity(intent);
+        }
+        if(id==R.id.action_sendmail){
+            sendMail();
+        }
+
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void sendMail() {
+        String email = "";
+        String subject = "Recipe "+recipe.getTitle();
+
+        StringBuilder sb = new StringBuilder();
+        String newLine = System.lineSeparator();
+        sb.append("Title:" + recipe.getTitle()+newLine);
+        sb.append("Duration : "+recipe.getDuration()+newLine);
+        sb.append("Portions : "+recipe.getPortions()+newLine);
+        sb.append("Ingredients : "+recipe.getIngredients()+newLine);
+        sb.append("Steps :"+recipe.getSteps()+newLine);
+        String body = sb.toString();
+
+        String chooserTitle = "Send "+recipe.getTitle() + "as mail";
+
+        Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:" + email));
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, subject);
+        emailIntent.putExtra(Intent.EXTRA_TEXT, body);
+        //emailIntent.putExtra(Intent.EXTRA_HTML_TEXT, body); //If you are using HTML in your body text
+        startActivity(Intent.createChooser(emailIntent, chooserTitle));
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putInt(EXTRA_RECIPE_ID,recipeId);
+        super.onSaveInstanceState(outState);
     }
 }
