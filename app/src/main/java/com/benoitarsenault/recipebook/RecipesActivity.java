@@ -101,6 +101,7 @@ public class RecipesActivity extends AppCompatActivity {
         });
 
         searchView = (SearchView) findViewById(R.id.recipe_searchview);
+        searchView.setIconifiedByDefault(false);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -115,6 +116,11 @@ public class RecipesActivity extends AppCompatActivity {
                 return false;
             }
         });
+
+        if (savedInstanceState != null) {
+            searchView.setQuery(searchCriteria,true);
+
+        }
     }
 
     @Override

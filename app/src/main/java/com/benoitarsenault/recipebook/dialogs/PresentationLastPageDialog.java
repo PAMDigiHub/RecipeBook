@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 
+import com.benoitarsenault.recipebook.PresentationFragment;
 import com.benoitarsenault.recipebook.R;
 
 /**
@@ -16,6 +17,9 @@ import com.benoitarsenault.recipebook.R;
  */
 
 public class PresentationLastPageDialog extends DialogFragment {
+
+    PresentationLastPageDialogListener listener;
+
 
     public static PresentationLastPageDialog newInstance() {
 
@@ -31,6 +35,8 @@ public class PresentationLastPageDialog extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
+        listener = (PresentationLastPageDialogListener) getActivity();
+
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.presentation_last_page_dialog, null);
 
@@ -38,7 +44,8 @@ public class PresentationLastPageDialog extends DialogFragment {
         firstStepButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                listener.onFirstStepButtonClicked();
+                dismiss();
             }
         });
 
@@ -46,11 +53,17 @@ public class PresentationLastPageDialog extends DialogFragment {
         detailButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                listener.onReturnToDetailClicked();
+                dismiss();
             }
         });
 
         builder.setView(view).setTitle("Last step reached, please choose next action");
         return builder.create();
+    }
+
+    public interface PresentationLastPageDialogListener{
+        public void onFirstStepButtonClicked();
+        public void onReturnToDetailClicked();
     }
 }

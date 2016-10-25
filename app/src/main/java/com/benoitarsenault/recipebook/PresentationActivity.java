@@ -16,7 +16,7 @@ import com.benoitarsenault.recipebook.dialogs.PresentationLastPageDialog;
 import com.benoitarsenault.recipebook.model.Recipe;
 import com.benoitarsenault.recipebook.model.RecipesProvider;
 
-public class PresentationActivity extends AppCompatActivity implements PresentationFragment.PresentationFragmentListener {
+public class PresentationActivity extends AppCompatActivity implements PresentationFragment.PresentationFragmentListener, PresentationLastPageDialog.PresentationLastPageDialogListener {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -53,6 +53,16 @@ public class PresentationActivity extends AppCompatActivity implements Presentat
         mViewPager.setAdapter(mSectionsPagerAdapter);
         mViewPager.addOnPageChangeListener(new PageChangeListener());
 
+    }
+
+    @Override
+    public void onFirstStepButtonClicked() {
+        mViewPager.setCurrentItem(0);
+    }
+
+    @Override
+    public void onReturnToDetailClicked() {
+        finish();
     }
 
     public class PageChangeListener extends ViewPager.SimpleOnPageChangeListener {
