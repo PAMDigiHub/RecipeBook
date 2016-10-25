@@ -1,7 +1,9 @@
 package com.benoitarsenault.recipebook;
 
 import android.content.Context;
+import android.content.pm.InstrumentationInfo;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +19,7 @@ import com.benoitarsenault.recipebook.dialogs.ManageFragmentItemDialog;
 import com.benoitarsenault.recipebook.dialogs.UpdateFragmentItemDialog;
 
 import java.util.ArrayList;
+import java.util.zip.Inflater;
 
 
 public class SimpleListFragment extends android.support.v4.app.Fragment implements AddFragmentItemDialog.AddFragmentItemDialogListener,UpdateFragmentItemDialog.UpdateFragmentItemDialogListener, ManageFragmentItemDialog.ManageFragmentItemDialogListener {
@@ -47,7 +50,21 @@ public class SimpleListFragment extends android.support.v4.app.Fragment implemen
         super.onCreate(savedInstanceState);
 
         items = new ArrayList<>();
-        adapter = new ArrayAdapter<String>(getContext(),R.layout.fragment_simple_list_item,R.id.fragment_simple_list_item_textview,items);
+        adapter = new ArrayAdapter<String>(getContext(),R.layout.fragment_simple_list_item,R.id.fragment_simple_list_item_textview,items){
+            @NonNull
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+
+                View view = super.getView(position, convertView, parent);
+
+                if(isDisplayOrderEnabled()) {
+                    TextView textView = (TextView) view.findViewById(R.id.fragment_simple_list_item_textview);
+                    textView.setText((position+1)+" - "+textView.getText());
+                }
+
+                return view;
+            }
+        };
     }
 
     @Override

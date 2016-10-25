@@ -37,12 +37,10 @@
                 android:layout_weight="1" />
         </LinearLayout>
 
-        <GridView
+        <ListView
             android:layout_width="match_parent"
-            android:id="@+id/recipe_gridview"
-            tools:listitem="@layout/recipe_item"
             android:layout_height="match_parent"
-            android:numColumns="auto_fit" />
+            android:id="@+id/recipe_listview" />
 
     </LinearLayout>
 </RelativeLayout>

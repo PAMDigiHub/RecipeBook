@@ -4,12 +4,6 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:srcCompat="@drawable/ic_toc_black_24dp"
-        android:id="@+id/recipe_item_imageview" />
-
     <TextView
         android:text="Recipe"
         android:layout_width="match_parent"
@@ -22,12 +16,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/recipe_item_duration"
-        android:textAppearance="@android:style/TextAppearance.Material.Large" />
+        android:textAppearance="@android:style/TextAppearance.Material.Medium" />
 
     <TextView
         android:text="Portions"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/recipe_item_portions"
-        android:textAppearance="@android:style/TextAppearance.Material.Large" />
+        android:textAppearance="@android:style/TextAppearance.Material.Medium" />
 </LinearLayout>

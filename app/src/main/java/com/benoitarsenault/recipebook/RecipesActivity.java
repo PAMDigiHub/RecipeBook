@@ -2,7 +2,6 @@ package com.benoitarsenault.recipebook;
 
 import android.content.Intent;
 import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -14,6 +13,7 @@ import android.view.MenuItem;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.SearchView;
 
@@ -28,7 +28,7 @@ public class RecipesActivity extends AppCompatActivity {
     private static final String KEY_SORT_ORDER = "KEY_SORT_ORDER";
     private static final String KEY_SEARCH_CRITERIA = "KEY_SEARCH_CRITERIA";
 
-    private GridView recipeGridView;
+    private ListView recipeListView;
     private RecipesAdapter adapter;
     private String searchCriteria;
     private SortOrder sortOrder;
@@ -45,8 +45,7 @@ public class RecipesActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(RecipesActivity.this,AddRecipeActivity.class);
-
+                Intent intent = new Intent(RecipesActivity.this, AddRecipeActivity.class);
                 startActivity(intent);
             }
         });
@@ -60,16 +59,16 @@ public class RecipesActivity extends AppCompatActivity {
         }
 
 
-        adapter = new RecipesAdapter(RecipesActivity.this, RecipesProvider.getInstance().getOrderedRecipes(RecipesActivity.this,searchCriteria,sortOrder));
-        recipeGridView = (GridView) findViewById(R.id.recipe_gridview);
-        recipeGridView.setAdapter(adapter);
-        recipeGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        adapter = new RecipesAdapter(RecipesActivity.this, RecipesProvider.getInstance().getOrderedRecipes(RecipesActivity.this, searchCriteria, sortOrder));
+        recipeListView = (ListView) findViewById(R.id.recipe_listview);
+        recipeListView.setAdapter(adapter);
+        recipeListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Recipe selectedRecipe = (Recipe) RecipesDbHelper.recipeFromCursor((Cursor) adapter.getItem(position));
 
-                Intent editRecipeIntent = new Intent(RecipesActivity.this,EditRecipeActivity.class);
-                editRecipeIntent.putExtra(EditRecipeActivity.EXTRA_RECIPE_ID,selectedRecipe.getId());
+                Intent editRecipeIntent = new Intent(RecipesActivity.this, EditRecipeActivity.class);
+                editRecipeIntent.putExtra(EditRecipeActivity.EXTRA_RECIPE_ID, selectedRecipe.getId());
                 startActivity(editRecipeIntent);
             }
         });
@@ -82,7 +81,7 @@ public class RecipesActivity extends AppCompatActivity {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                switch(position){
+                switch (position) {
                     case 0:
                         sortOrder = SortOrder.ASC;
                         refreshCursor();
@@ -118,8 +117,7 @@ public class RecipesActivity extends AppCompatActivity {
         });
 
         if (savedInstanceState != null) {
-            searchView.setQuery(searchCriteria,true);
-
+            searchView.setQuery(searchCriteria, true);
         }
     }
 
@@ -168,7 +166,8 @@ public class RecipesActivity extends AppCompatActivity {
         }
 
         @Override
-        public void onNothingSelected(AdapterView<?> parent) {}
+        public void onNothingSelected(AdapterView<?> parent) {
+        }
     };
 
     private void refreshCursor() {

@@ -60,8 +60,11 @@ public class AddRecipeActivity extends AppCompatActivity implements SimpleListFr
 
         ingredientFragment = (SimpleListFragment) getSupportFragmentManager().findFragmentById(R.id.recipe_form_fragment_ingredients);
         ingredientFragment.setTitle("Ingredients");
+        ingredientFragment.setDisplayOrderEnabled(false);
+
         stepsFragment = (SimpleListFragment) getSupportFragmentManager().findFragmentById(R.id.recipe_form_fragment_steps);
         stepsFragment.setTitle("Steps");
+        stepsFragment.setDisplayOrderEnabled(true);
 
         addButton = (Button) findViewById(R.id.content_add_button);
         addButton.setOnClickListener(new View.OnClickListener() {

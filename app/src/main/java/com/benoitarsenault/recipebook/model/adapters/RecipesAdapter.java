@@ -37,8 +37,8 @@ public class RecipesAdapter extends CursorAdapter {
         Recipe recipe = RecipesDbHelper.recipeFromCursor(cursor);
         if(recipe!=null){
             title.setText(recipe.getTitle());
-            duration.setText(recipe.getDuration());
-            portions.setText(recipe.getPortions()+"");
+            duration.setText("Duration : "+recipe.getDuration());
+            portions.setText("Portions : "+recipe.getPortions()+"");
         }
     }
 }

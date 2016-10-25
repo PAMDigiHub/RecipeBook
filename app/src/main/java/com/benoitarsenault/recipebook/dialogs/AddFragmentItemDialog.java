@@ -26,7 +26,7 @@ public class AddFragmentItemDialog extends android.support.v4.app.DialogFragment
     public static AddFragmentItemDialog newInstance(String text) {
 
         Bundle args = new Bundle();
-        args.putString(ARG_TEXT,text);
+        args.putString(ARG_TEXT, text);
         AddFragmentItemDialog fragment = new AddFragmentItemDialog();
         fragment.setArguments(args);
         return fragment;
@@ -49,7 +49,7 @@ public class AddFragmentItemDialog extends android.support.v4.app.DialogFragment
         View view = inflater.inflate(R.layout.text_input_dialog, null);
 
         editText = (EditText) view.findViewById(R.id.text_input_dialog_edit_text);
-        editText.setText(getArguments().getString(ARG_TEXT,""));
+        editText.setText(getArguments().getString(ARG_TEXT, ""));
         editText.setSelection(editText.getText().length());
         editText.requestFocus();
 

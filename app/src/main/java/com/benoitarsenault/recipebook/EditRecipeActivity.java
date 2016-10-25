@@ -77,12 +77,14 @@ public class EditRecipeActivity extends AppCompatActivity implements SimpleListF
 
         ingredientFragment = (SimpleListFragment) getSupportFragmentManager().findFragmentById(R.id.recipe_form_fragment_ingredients);
         ingredientFragment.setTitle("Ingredients");
+        ingredientFragment.setDisplayOrderEnabled(false);
 
         ArrayList<String> test = recipe.getIngredients();
         ingredientFragment.setItems(recipe.getIngredients());
 
         stepsFragment = (SimpleListFragment) getSupportFragmentManager().findFragmentById(R.id.recipe_form_fragment_steps);
         stepsFragment.setTitle("Steps");
+        stepsFragment.setDisplayOrderEnabled(true);
         stepsFragment.setItems(recipe.getSteps());
 
         deleteButton = (Button) findViewById(R.id.activity_edit_delete_button);
@@ -183,7 +185,7 @@ public class EditRecipeActivity extends AppCompatActivity implements SimpleListF
         sb.append("Steps :" + recipe.getSteps() + newLine);
         String body = sb.toString();
 
-        String chooserTitle = "Send " + recipe.getTitle() + "as mail";
+        String chooserTitle = "Send " + recipe.getTitle() + " as mail";
 
         Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:" + email));
         emailIntent.putExtra(Intent.EXTRA_SUBJECT, subject);
