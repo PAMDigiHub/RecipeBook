@@ -15,6 +15,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.benoitarsenault.recipebook.dialogs.AddFragmentItemDialog;
+import com.benoitarsenault.recipebook.dialogs.DeleteFragmentItemDialog;
 import com.benoitarsenault.recipebook.dialogs.ManageFragmentItemDialog;
 import com.benoitarsenault.recipebook.dialogs.UpdateFragmentItemDialog;
 
@@ -22,12 +23,12 @@ import java.util.ArrayList;
 import java.util.zip.Inflater;
 
 
-public class SimpleListFragment extends android.support.v4.app.Fragment implements AddFragmentItemDialog.AddFragmentItemDialogListener,UpdateFragmentItemDialog.UpdateFragmentItemDialogListener, ManageFragmentItemDialog.ManageFragmentItemDialogListener {
+public class SimpleListFragment extends android.support.v4.app.Fragment implements AddFragmentItemDialog.AddFragmentItemDialogListener, UpdateFragmentItemDialog.UpdateFragmentItemDialogListener, ManageFragmentItemDialog.ManageFragmentItemDialogListener {
 
     private static final String TAG_ADD = "add";
 
     private static final String TAG_UPDATE = "update";
-    private static final String TAG_MANAGE = "manage" ;
+    private static final String TAG_MANAGE = "manage";
 
     ArrayAdapter<String> adapter;
     private ArrayList<String> items;
@@ -50,16 +51,16 @@ public class SimpleListFragment extends android.support.v4.app.Fragment implemen
         super.onCreate(savedInstanceState);
 
         items = new ArrayList<>();
-        adapter = new ArrayAdapter<String>(getContext(),R.layout.fragment_simple_list_item,R.id.fragment_simple_list_item_textview,items){
+        adapter = new ArrayAdapter<String>(getContext(), R.layout.fragment_simple_list_item, R.id.fragment_simple_list_item_textview, items) {
             @NonNull
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
 
                 View view = super.getView(position, convertView, parent);
 
-                if(isDisplayOrderEnabled()) {
+                if (isDisplayOrderEnabled()) {
                     TextView textView = (TextView) view.findViewById(R.id.fragment_simple_list_item_textview);
-                    textView.setText((position+1)+" - "+textView.getText());
+                    textView.setText((position + 1) + " - " + textView.getText());
                 }
 
                 return view;
@@ -82,17 +83,17 @@ public class SimpleListFragment extends android.support.v4.app.Fragment implemen
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String item = adapter.getItem(position);
-                UpdateFragmentItemDialog dialog = UpdateFragmentItemDialog.newInstance(item,position);
-                dialog.setTargetFragment(SimpleListFragment.this,0);
-                dialog.show(getFragmentManager(),TAG_UPDATE);
+                UpdateFragmentItemDialog dialog = UpdateFragmentItemDialog.newInstance(item, position);
+                dialog.setTargetFragment(SimpleListFragment.this, 0);
+                dialog.show(getFragmentManager(), TAG_UPDATE);
             }
         });
 
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                ManageFragmentItemDialog dialog = ManageFragmentItemDialog.newInstance(position,adapter.getItem(position));
-                dialog.setTargetFragment(SimpleListFragment.this,0);
+                ManageFragmentItemDialog dialog = ManageFragmentItemDialog.newInstance(position, adapter.getItem(position));
+                dialog.setTargetFragment(SimpleListFragment.this, 0);
                 dialog.show(getFragmentManager(), TAG_MANAGE);
                 return true;
             }
@@ -103,8 +104,8 @@ public class SimpleListFragment extends android.support.v4.app.Fragment implemen
             @Override
             public void onClick(View v) {
                 AddFragmentItemDialog dialog = AddFragmentItemDialog.newInstance();
-                dialog.setTargetFragment(SimpleListFragment.this,0);
-                dialog.show(getFragmentManager(),TAG_ADD);
+                dialog.setTargetFragment(SimpleListFragment.this, 0);
+                dialog.show(getFragmentManager(), TAG_ADD);
             }
         });
 
@@ -130,19 +131,19 @@ public class SimpleListFragment extends android.support.v4.app.Fragment implemen
 
     @Override
     public void addFragmentItemDialogPositiveClick(String tag, String newText) {
-            addItem(newText);
+        addItem(newText);
         mListener.onSimpleListFragmentItemsChanged(getId());
     }
 
     @Override
     public void updateFragmentItemDialogPositiveClick(String tag, String newText, int position) {
-        update(newText,position);
+        update(newText, position);
         mListener.onSimpleListFragmentItemsChanged(getId());
     }
 
     @Override
     public void manageFragmentItemDialogUpdateClick(String tag, int position, String newText) {
-        update(newText,position);
+        update(newText, position);
         mListener.onSimpleListFragmentItemsChanged(getId());
     }
 
@@ -151,6 +152,8 @@ public class SimpleListFragment extends android.support.v4.app.Fragment implemen
         deleteItem(position);
         mListener.onSimpleListFragmentItemsChanged(getId());
     }
+
+
 
     public interface OnSimpleListFragmentInteractionListener {
         void onSimpleListFragmentItemsChanged(int fragmentId);
@@ -163,24 +166,24 @@ public class SimpleListFragment extends android.support.v4.app.Fragment implemen
     public void setItems(ArrayList<String> newItems) {
         //Need to manually add each item to avoid losing the adapter's data reference
         items.clear();
-        for(String item : newItems){
+        for (String item : newItems) {
             items.add(item);
         }
         adapter.notifyDataSetChanged();
     }
 
-    public void addItem(String item){
+    public void addItem(String item) {
         items.add(item);
         adapter.notifyDataSetChanged();
     }
 
-    public void deleteItem(int index){
+    public void deleteItem(int index) {
         items.remove(index);
         adapter.notifyDataSetChanged();
     }
 
-    private void update(String newText,int position) {
-        items.set(position,newText);
+    private void update(String newText, int position) {
+        items.set(position, newText);
         adapter.notifyDataSetChanged();
     }
 

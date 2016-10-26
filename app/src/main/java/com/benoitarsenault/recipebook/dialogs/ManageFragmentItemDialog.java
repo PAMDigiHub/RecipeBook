@@ -15,7 +15,7 @@ import com.benoitarsenault.recipebook.R;
 /**
  * Created by Benoit Arsenault on 2016-09-19.
  */
-public class ManageFragmentItemDialog extends android.support.v4.app.DialogFragment {
+public class ManageFragmentItemDialog extends android.support.v4.app.DialogFragment implements DeleteFragmentItemDialog.DeleteFragmentItemDialogListener {
 
     private static final String ARG_TEXT = "text";
     private static final String ARG_POSITION = "position";
@@ -73,15 +73,21 @@ public class ManageFragmentItemDialog extends android.support.v4.app.DialogFragm
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.manageFragmentItemDialogDeleteClick(getTag(),position);
-                dismiss();
+                DeleteFragmentItemDialog dialog = DeleteFragmentItemDialog.newInstance(position);
+                dialog.setTargetFragment(ManageFragmentItemDialog.this,0);
+                dialog.show(getFragmentManager(),"delete");
             }
         });
 
-
-        //manage text
         return builder.create();
     }
+
+    @Override
+    public void onDeleteFragmentItemDialogPositiveClick(String tag, int position) {
+        listener.manageFragmentItemDialogDeleteClick(getTag(),position);
+        dismiss();
+    }
+
 
     public interface ManageFragmentItemDialogListener {
         void manageFragmentItemDialogUpdateClick(String tag, int position, String newText);
