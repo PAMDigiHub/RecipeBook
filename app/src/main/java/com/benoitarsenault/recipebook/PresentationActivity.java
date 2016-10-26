@@ -40,7 +40,7 @@ public class PresentationActivity extends AppCompatActivity implements Presentat
         setContentView(R.layout.activity_presentation);
 
         int recipeId = getIntent().getExtras().getInt(EditRecipeActivity.EXTRA_RECIPE_ID);
-        recipe = RecipesProvider.getInstance().getItemById(recipeId,this);
+        recipe = RecipesProvider.getInstance().getItemById(recipeId, this);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -65,15 +65,42 @@ public class PresentationActivity extends AppCompatActivity implements Presentat
         finish();
     }
 
-    public class PageChangeListener extends ViewPager.SimpleOnPageChangeListener {
+    public class PageChangeListener implements ViewPager.OnPageChangeListener {
+
+        boolean lastPageChange = false;
+        boolean isGoingPastLastPage = false;
+
+        @Override
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            int lastIndex = mSectionsPagerAdapter.getCount() - 1;
+            if (lastPageChange && position == lastIndex) {
+                isGoingPastLastPage = true;
+            } else {
+                isGoingPastLastPage = false;
+            }
+        }
 
         @Override
         public void onPageSelected(int position) {
-           if(position==mSectionsPagerAdapter.getCount()-1){
-               // TODO: 2016-10-25 pop a dialog
-               PresentationLastPageDialog dialog = PresentationLastPageDialog.newInstance();
-               dialog.show(getSupportFragmentManager(),"lastPage");
-           }
+
+        }
+
+        @Override
+        public void onPageScrollStateChanged(int state) {
+            int lastIndex = mSectionsPagerAdapter.getCount() - 1;
+
+            int currentItem = mViewPager.getCurrentItem();
+            if (currentItem == lastIndex && state == 1) {
+                lastPageChange = true;
+            } else {
+                lastPageChange = false;
+            }
+            if (isGoingPastLastPage) {
+                PresentationLastPageDialog dialog = PresentationLastPageDialog.newInstance();
+                dialog.show(getSupportFragmentManager(), "lastPageFromScrollState");
+                isGoingPastLastPage = false;
+            }
+
         }
     }
 
@@ -101,23 +128,24 @@ public class PresentationActivity extends AppCompatActivity implements Presentat
 
     @Override
     public void onPresentationFragmentPreviousButtonClicked() {
-        int previousItem = mViewPager.getCurrentItem()-1;
+        int previousItem = mViewPager.getCurrentItem() - 1;
 
-        if(previousItem>=0) {
+        if (previousItem >= 0) {
             mViewPager.setCurrentItem(previousItem);
-        }else{
+        } else {
             Toast.makeText(this, "Rendu au debut", Toast.LENGTH_SHORT).show();
         }
     }
 
     @Override
     public void onPresentationFragmentNextButtonClicked() {
-        int nextItem = mViewPager.getCurrentItem()+1;
+        int nextItem = mViewPager.getCurrentItem() + 1;
 
-        if(nextItem<mSectionsPagerAdapter.getCount()) {
+        if (nextItem < mSectionsPagerAdapter.getCount()) {
             mViewPager.setCurrentItem(nextItem);
-        }else{
-            Toast.makeText(this, "Rendu au boutte", Toast.LENGTH_SHORT).show();
+        } else {
+            PresentationLastPageDialog dialog = PresentationLastPageDialog.newInstance();
+            dialog.show(getSupportFragmentManager(),"lastPageFromButton");
         }
     }
 
@@ -129,7 +157,7 @@ public class PresentationActivity extends AppCompatActivity implements Presentat
 
         @Override
         public Fragment getItem(int position) {
-            return PresentationFragment.newInstance(recipe.getId(),position);
+            return PresentationFragment.newInstance(recipe.getId(), position);
         }
 
 
@@ -137,5 +165,7 @@ public class PresentationActivity extends AppCompatActivity implements Presentat
         public int getCount() {
             return recipe.getSteps().size();
         }
+
+
     }
 }
