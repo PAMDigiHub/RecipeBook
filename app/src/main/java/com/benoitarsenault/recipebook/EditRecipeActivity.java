@@ -111,8 +111,15 @@ public class EditRecipeActivity extends AppCompatActivity implements DeleteRecip
         updateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                UpdateRecipeDialogFragment updateDialog = UpdateRecipeDialogFragment.newInstance();
-                updateDialog.show(getFragmentManager(), "");
+                boolean listsAreNotEmpty = ingredientFragment.getItems().size() > 0 && stepsFragment.getItems().size() > 0;
+                boolean nameIsNotEmpty = nameTextView.getText().length() > 0;
+
+                if (nameIsNotEmpty && listsAreNotEmpty) {
+                    UpdateRecipeDialogFragment updateDialog = UpdateRecipeDialogFragment.newInstance();
+                    updateDialog.show(getFragmentManager(), "");
+                } else {
+                    Toast.makeText(EditRecipeActivity.this, "Name and lists must not be empty.", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
@@ -181,20 +188,19 @@ public class EditRecipeActivity extends AppCompatActivity implements DeleteRecip
     //-----------------
     @Override
     public void onUpdateRecipeDialogPositiveClick(String tag) {
-        if(nameTextView.length()>0) {
-            recipe.setTitle(nameTextView.getText().toString());
-            recipe.setDuration(durationTextView.getText().toString());
-            recipe.setPortions(portionSpinner.getSelectedItemPosition() + 1);
-            recipe.setIngredients(ingredientFragment.getItems());
-            recipe.setSteps(stepsFragment.getItems());
 
-            RecipesProvider.getInstance().updateItem(recipe, this);
-            Intent intent = getIntent();
-            finish();
-            startActivity(intent);
-        }else{
-            Toast.makeText(this, "Empty text is not allowed.", Toast.LENGTH_SHORT).show();
-        }
+
+        recipe.setTitle(nameTextView.getText().toString());
+        recipe.setDuration(durationTextView.getText().toString());
+        recipe.setPortions(portionSpinner.getSelectedItemPosition() + 1);
+        recipe.setIngredients(ingredientFragment.getItems());
+        recipe.setSteps(stepsFragment.getItems());
+
+        RecipesProvider.getInstance().updateItem(recipe, this);
+        Intent intent = getIntent();
+        finish();
+        startActivity(intent);
+
     }
 
     @Override

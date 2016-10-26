@@ -42,7 +42,7 @@ public class AddRecipeActivity extends AppCompatActivity implements DurationDial
 
         initLayout();
 
-        if(savedInstanceState!=null){
+        if (savedInstanceState != null) {
             durationTextView.setText(savedInstanceState.getString(STATE_DURATION));
             ingredientFragment.setItems(savedInstanceState.getStringArrayList(STATE_INGREDIENTS));
             stepsFragment.setItems(savedInstanceState.getStringArrayList(STATE_STEPS));
@@ -57,11 +57,11 @@ public class AddRecipeActivity extends AppCompatActivity implements DurationDial
             @Override
             public void onClick(View v) {
                 DurationDialogFragment durationDialog = DurationDialogFragment.newInstance(durationTextView.getText().toString());
-                durationDialog.show(getFragmentManager(),TAG_DURATION);
+                durationDialog.show(getFragmentManager(), TAG_DURATION);
             }
         });
 
-        spinnerAdapter = ArrayAdapter.createFromResource(AddRecipeActivity.this,R.array.portions_choices,android.R.layout.simple_spinner_item);
+        spinnerAdapter = ArrayAdapter.createFromResource(AddRecipeActivity.this, R.array.portions_choices, android.R.layout.simple_spinner_item);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         portionSpinner = (Spinner) findViewById(R.id.portion_spinner);
         portionSpinner.setAdapter(spinnerAdapter);
@@ -79,7 +79,10 @@ public class AddRecipeActivity extends AppCompatActivity implements DurationDial
             @Override
             public void onClick(View v) {
 
-                if(nameTextView.getText().length()>0) {
+                boolean listsAreNotEmpty = ingredientFragment.getItems().size() > 0 && stepsFragment.getItems().size() > 0;
+                boolean nameIsNotEmpty = nameTextView.getText().length() > 0;
+
+                if (nameIsNotEmpty && listsAreNotEmpty) {
                     String title = nameTextView.getText().toString();
                     String duration = durationTextView.getText().toString();
                     int portions = Integer.parseInt(portionSpinner.getSelectedItem().toString());
@@ -89,8 +92,8 @@ public class AddRecipeActivity extends AppCompatActivity implements DurationDial
                     Recipe recipe = new Recipe(title, duration, portions, ingredients, steps);
                     RecipesProvider.getInstance().addItem(recipe, AddRecipeActivity.this);
                     finish();
-                }else{
-                    Toast.makeText(AddRecipeActivity.this, "The name of the recipe must not be empty", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(AddRecipeActivity.this, "Name and lists must not be empty.", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -98,10 +101,10 @@ public class AddRecipeActivity extends AppCompatActivity implements DurationDial
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-       // outState.putInt(EXTRA_RECIPE_ID,recipeId);
-        outState.putString(STATE_DURATION,durationTextView.getText().toString());
-        outState.putStringArrayList(STATE_INGREDIENTS,ingredientFragment.getItems());
-        outState.putStringArrayList(STATE_STEPS,stepsFragment.getItems());
+        // outState.putInt(EXTRA_RECIPE_ID,recipeId);
+        outState.putString(STATE_DURATION, durationTextView.getText().toString());
+        outState.putStringArrayList(STATE_INGREDIENTS, ingredientFragment.getItems());
+        outState.putStringArrayList(STATE_STEPS, stepsFragment.getItems());
 
         super.onSaveInstanceState(outState);
     }
