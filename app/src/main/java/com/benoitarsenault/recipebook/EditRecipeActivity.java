@@ -139,7 +139,9 @@ public class EditRecipeActivity extends AppCompatActivity implements SimpleListF
             recipe.setSteps(stepsFragment.getItems());
 
             RecipesProvider.getInstance().updateItem(recipe, this);
+            Intent intent = getIntent();
             finish();
+            startActivity(intent);
         }else{
             Toast.makeText(this, "Empty text is not allowed.", Toast.LENGTH_SHORT).show();
         }
