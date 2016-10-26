@@ -56,6 +56,7 @@ public class AddRecipeActivity extends AppCompatActivity implements SimpleListFr
 
         portionSpinner = (Spinner) findViewById(R.id.portion_spinner);
         spinnerAdapter = ArrayAdapter.createFromResource(AddRecipeActivity.this,R.array.portions_choices,android.R.layout.simple_spinner_item);
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         portionSpinner.setAdapter(spinnerAdapter);
 
         ingredientFragment = (SimpleListFragment) getSupportFragmentManager().findFragmentById(R.id.recipe_form_fragment_ingredients);

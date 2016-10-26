@@ -24,5 +24,8 @@
     <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/fragment_simple_list_listview" />
+        android:id="@+id/fragment_simple_list_listview"
+        android:scrollbarStyle="insideInset"
+        android:scrollbarAlwaysDrawVerticalTrack="true"
+        android:fadeScrollbars="false"/>
 </LinearLayout>
