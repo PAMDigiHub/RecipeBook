@@ -7,7 +7,8 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.benoitarsenault.recipebook.PresentationActivity$PlaceholderFragment">
+    tools:context="com.benoitarsenault.recipebook.PresentationActivity"
+    android:background="@color/colorPrimaryDark">
 
     <ProgressBar
         android:id="@+id/fragment_presentation_completion_progressbar"
@@ -27,7 +28,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
-            android:text="Step  :" />
+            android:text="Step  :"
+            android:textSize="18sp"
+            android:textColor="@android:color/white" />
 
         <TextView
             android:id="@+id/fragment_presentation_completion_textview"
@@ -36,7 +39,9 @@
             android:layout_alignParentTop="true"
             android:layout_marginStart="8dp"
             android:layout_toEndOf="@+id/fragment_presentation_step_textview"
-            android:text="TextView" />
+            android:text="TextView"
+            android:textSize="18sp"
+            android:textColor="@android:color/white" />
 
     </RelativeLayout>
 
@@ -48,8 +53,9 @@
         android:layout_weight="0"
         android:text="Step content"
         android:textAlignment="center"
-        android:textSize="24sp"
-        android:background="@android:color/holo_blue_light" />
+        android:textSize="30sp"
+        android:layout_marginBottom="16dp"
+        android:textColor="@android:color/white" />
 
     <LinearLayout
         android:layout_width="match_parent"

@@ -41,7 +41,7 @@ public class DeleteFragmentItemDialog extends android.support.v4.app.DialogFragm
     }
 
     public interface DeleteFragmentItemDialogListener {
-        public void onDeleteFragmentItemDialogPositiveClick(String tag, int position);
+        void onDeleteFragmentItemDialogPositiveClick(String tag, int position);
 
     }
 }

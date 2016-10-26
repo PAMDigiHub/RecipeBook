@@ -63,7 +63,7 @@ public class PresentationLastPageDialog extends DialogFragment {
     }
 
     public interface PresentationLastPageDialogListener{
-        public void onFirstStepButtonClicked();
-        public void onReturnToDetailClicked();
+        void onFirstStepButtonClicked();
+        void onReturnToDetailClicked();
     }
 }

@@ -52,7 +52,9 @@ public class PresentationActivity extends AppCompatActivity implements Presentat
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
         mViewPager.addOnPageChangeListener(new PageChangeListener());
+        mViewPager.setPageTransformer(false,new DepthPageTransformer());
 
+        //mViewPager.setPageTransformer(true,new ZoomOutPageTransformer());
     }
 
     @Override
@@ -73,11 +75,7 @@ public class PresentationActivity extends AppCompatActivity implements Presentat
         @Override
         public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
             int lastIndex = mSectionsPagerAdapter.getCount() - 1;
-            if (lastPageChange && position == lastIndex) {
-                isGoingPastLastPage = true;
-            } else {
-                isGoingPastLastPage = false;
-            }
+            isGoingPastLastPage = lastPageChange && position == lastIndex;
         }
 
         @Override
@@ -90,11 +88,7 @@ public class PresentationActivity extends AppCompatActivity implements Presentat
             int lastIndex = mSectionsPagerAdapter.getCount() - 1;
 
             int currentItem = mViewPager.getCurrentItem();
-            if (currentItem == lastIndex && state == 1) {
-                lastPageChange = true;
-            } else {
-                lastPageChange = false;
-            }
+            lastPageChange = currentItem == lastIndex && state == 1;
             if (isGoingPastLastPage) {
                 PresentationLastPageDialog dialog = PresentationLastPageDialog.newInstance();
                 dialog.show(getSupportFragmentManager(), "lastPageFromScrollState");
@@ -131,7 +125,7 @@ public class PresentationActivity extends AppCompatActivity implements Presentat
         int previousItem = mViewPager.getCurrentItem() - 1;
 
         if (previousItem >= 0) {
-            mViewPager.setCurrentItem(previousItem);
+            mViewPager.setCurrentItem(previousItem,true);
         } else {
             Toast.makeText(this, "Rendu au debut", Toast.LENGTH_SHORT).show();
         }
@@ -139,10 +133,10 @@ public class PresentationActivity extends AppCompatActivity implements Presentat
 
     @Override
     public void onPresentationFragmentNextButtonClicked() {
-        int nextItem = mViewPager.getCurrentItem() + 1;
+       int nextItem = mViewPager.getCurrentItem() + 1;
 
         if (nextItem < mSectionsPagerAdapter.getCount()) {
-            mViewPager.setCurrentItem(nextItem);
+            mViewPager.setCurrentItem(nextItem,true);
         } else {
             PresentationLastPageDialog dialog = PresentationLastPageDialog.newInstance();
             dialog.show(getSupportFragmentManager(),"lastPageFromButton");

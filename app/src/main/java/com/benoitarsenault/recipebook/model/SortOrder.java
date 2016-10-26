@@ -11,7 +11,7 @@ public enum SortOrder {
     private final int value;
     private final String sqliteValue;
 
-    private SortOrder(int value, String sqliteValue) {
+    SortOrder(int value, String sqliteValue) {
         this.value = value;
         this.sqliteValue = sqliteValue;
     }

@@ -134,7 +134,7 @@ public class EditRecipeActivity extends AppCompatActivity implements SimpleListF
         if(nameTextView.length()>0) {
             recipe.setTitle(nameTextView.getText().toString());
             recipe.setDuration(durationTextView.getText().toString());
-            recipe.setPortions((int) portionSpinner.getSelectedItemPosition() + 1);
+            recipe.setPortions(portionSpinner.getSelectedItemPosition() + 1);
             recipe.setIngredients(ingredientFragment.getItems());
             recipe.setSteps(stepsFragment.getItems());
 

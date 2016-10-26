@@ -65,7 +65,7 @@ public class RecipesActivity extends AppCompatActivity {
         recipeListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Recipe selectedRecipe = (Recipe) RecipesDbHelper.recipeFromCursor((Cursor) adapter.getItem(position));
+                Recipe selectedRecipe = RecipesDbHelper.recipeFromCursor((Cursor) adapter.getItem(position));
 
                 Intent editRecipeIntent = new Intent(RecipesActivity.this, EditRecipeActivity.class);
                 editRecipeIntent.putExtra(EditRecipeActivity.EXTRA_RECIPE_ID, selectedRecipe.getId());

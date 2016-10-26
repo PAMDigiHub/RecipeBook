@@ -84,7 +84,7 @@ public class PresentationFragment extends android.support.v4.app.Fragment {
     }
 
     public interface PresentationFragmentListener {
-        public void onPresentationFragmentPreviousButtonClicked();
-        public void onPresentationFragmentNextButtonClicked();
+        void onPresentationFragmentPreviousButtonClicked();
+        void onPresentationFragmentNextButtonClicked();
     }
 }
