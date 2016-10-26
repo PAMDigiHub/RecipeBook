@@ -3,8 +3,6 @@ package com.benoitarsenault.recipebook;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -13,19 +11,19 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.benoitarsenault.recipebook.dialogs.DeleteRecipeDialogFragment;
 import com.benoitarsenault.recipebook.dialogs.DurationDialogFragment;
 import com.benoitarsenault.recipebook.dialogs.UpdateRecipeDialogFragment;
+import com.benoitarsenault.recipebook.fragments.SimpleListFragment;
 import com.benoitarsenault.recipebook.model.Recipe;
 import com.benoitarsenault.recipebook.model.RecipesProvider;
 
 import java.util.ArrayList;
 
-public class EditRecipeActivity extends AppCompatActivity implements SimpleListFragment.OnSimpleListFragmentInteractionListener, DeleteRecipeDialogFragment.DeleteRecipeDialogListener, UpdateRecipeDialogFragment.UpdateRecipeDialogListener, DurationDialogFragment.DurationDialogListener {
+public class EditRecipeActivity extends AppCompatActivity implements DeleteRecipeDialogFragment.DeleteRecipeDialogListener, UpdateRecipeDialogFragment.UpdateRecipeDialogListener, DurationDialogFragment.DurationDialogListener {
 
     public static final String EXTRA_RECIPE_ID = "recipeId";
     private static final String TAG_DURATION = "duration";
@@ -49,13 +47,25 @@ public class EditRecipeActivity extends AppCompatActivity implements SimpleListF
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_recipe);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         recipeId = getIntent().getExtras().getInt(EXTRA_RECIPE_ID);
         recipe = RecipesProvider.getInstance().getItemById(recipeId, this);
 
+        initLayout();
+
+        if (savedInstanceState != null) {
+            recipeId = savedInstanceState.getInt(EXTRA_RECIPE_ID);
+            durationTextView.setText(savedInstanceState.getString(STATE_DURATION));
+            ingredientFragment.setItems(savedInstanceState.getStringArrayList(STATE_INGREDIENTS));
+            stepsFragment.setItems(savedInstanceState.getStringArrayList(STATE_STEPS));
+        }
+    }
+
+    private void initLayout() {
         getSupportActionBar().setTitle(recipe.getTitle());
         nameTextView = (TextView) findViewById(R.id.recipe_form_name_edit_text);
         nameTextView.setText(recipe.getTitle());
@@ -70,17 +80,16 @@ public class EditRecipeActivity extends AppCompatActivity implements SimpleListF
             }
         });
 
-        portionSpinner = (Spinner) findViewById(R.id.portion_spinner);
         spinnerAdapter = ArrayAdapter.createFromResource(this, R.array.portions_choices, android.R.layout.simple_spinner_item);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        portionSpinner = (Spinner) findViewById(R.id.portion_spinner);
         portionSpinner.setAdapter(spinnerAdapter);
         portionSpinner.setSelection(recipe.getPortions() - 1);
 
         ingredientFragment = (SimpleListFragment) getSupportFragmentManager().findFragmentById(R.id.recipe_form_fragment_ingredients);
         ingredientFragment.setTitle("Ingredients");
         ingredientFragment.setDisplayOrderEnabled(false);
-
-        ArrayList<String> test = recipe.getIngredients();
         ingredientFragment.setItems(recipe.getIngredients());
 
         stepsFragment = (SimpleListFragment) getSupportFragmentManager().findFragmentById(R.id.recipe_form_fragment_steps);
@@ -106,50 +115,16 @@ public class EditRecipeActivity extends AppCompatActivity implements SimpleListF
                 updateDialog.show(getFragmentManager(), "");
             }
         });
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        if (savedInstanceState != null) {
-            recipeId = savedInstanceState.getInt(EXTRA_RECIPE_ID);
-            durationTextView.setText(savedInstanceState.getString(STATE_DURATION));
-            ingredientFragment.setItems(savedInstanceState.getStringArrayList(STATE_INGREDIENTS));
-            stepsFragment.setItems(savedInstanceState.getStringArrayList(STATE_STEPS));
-        }
     }
 
     @Override
-    public void onSimpleListFragmentItemsChanged(int fragmentId) {
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putInt(EXTRA_RECIPE_ID, recipeId);
+        outState.putString(STATE_DURATION, durationTextView.getText().toString());
+        outState.putStringArrayList(STATE_INGREDIENTS, ingredientFragment.getItems());
+        outState.putStringArrayList(STATE_STEPS, stepsFragment.getItems());
 
-    }
-
-    @Override
-    public void onDeleteRecipeDialogPositiveClick(String tag) {
-        RecipesProvider.getInstance().removeItemById(recipe.getId(), EditRecipeActivity.this);
-        finish();
-    }
-
-    @Override
-    public void onUpdateRecipeDialogPositiveClick(String tag) {
-
-        if(nameTextView.length()>0) {
-            recipe.setTitle(nameTextView.getText().toString());
-            recipe.setDuration(durationTextView.getText().toString());
-            recipe.setPortions(portionSpinner.getSelectedItemPosition() + 1);
-            recipe.setIngredients(ingredientFragment.getItems());
-            recipe.setSteps(stepsFragment.getItems());
-
-            RecipesProvider.getInstance().updateItem(recipe, this);
-            Intent intent = getIntent();
-            finish();
-            startActivity(intent);
-        }else{
-            Toast.makeText(this, "Empty text is not allowed.", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    @Override
-    public void onDurationSelectedPositiveClick(String duration) {
-        durationTextView.setText(duration);
+        super.onSaveInstanceState(outState);
     }
 
     @Override
@@ -176,7 +151,6 @@ public class EditRecipeActivity extends AppCompatActivity implements SimpleListF
             sendMail();
         }
 
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -202,13 +176,35 @@ public class EditRecipeActivity extends AppCompatActivity implements SimpleListF
         startActivity(Intent.createChooser(emailIntent, chooserTitle));
     }
 
+    //----------------
+    // Dialog events
+    //-----------------
     @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        outState.putInt(EXTRA_RECIPE_ID, recipeId);
-        outState.putString(STATE_DURATION, durationTextView.getText().toString());
-        outState.putStringArrayList(STATE_INGREDIENTS, ingredientFragment.getItems());
-        outState.putStringArrayList(STATE_STEPS, stepsFragment.getItems());
+    public void onUpdateRecipeDialogPositiveClick(String tag) {
+        if(nameTextView.length()>0) {
+            recipe.setTitle(nameTextView.getText().toString());
+            recipe.setDuration(durationTextView.getText().toString());
+            recipe.setPortions(portionSpinner.getSelectedItemPosition() + 1);
+            recipe.setIngredients(ingredientFragment.getItems());
+            recipe.setSteps(stepsFragment.getItems());
 
-        super.onSaveInstanceState(outState);
+            RecipesProvider.getInstance().updateItem(recipe, this);
+            Intent intent = getIntent();
+            finish();
+            startActivity(intent);
+        }else{
+            Toast.makeText(this, "Empty text is not allowed.", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void onDeleteRecipeDialogPositiveClick(String tag) {
+        RecipesProvider.getInstance().removeItemById(recipe.getId(), EditRecipeActivity.this);
+        finish();
+    }
+
+    @Override
+    public void onDurationSelectedPositiveClick(String duration) {
+        durationTextView.setText(duration);
     }
 }

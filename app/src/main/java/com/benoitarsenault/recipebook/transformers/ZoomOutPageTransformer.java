@@ -1,4 +1,4 @@
-package com.benoitarsenault.recipebook;
+package com.benoitarsenault.recipebook.transformers;
 
 import android.support.v4.view.ViewPager;
 import android.view.View;

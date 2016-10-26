@@ -20,6 +20,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/manage_fragment_item_dialog_delete_button"
+            style="?android:attr/buttonBarButtonStyle"
             android:layout_weight="1" />
 
         <Button
@@ -27,6 +28,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/manage_fragment_item_dialog_update_button"
+            style="?android:attr/buttonBarButtonStyle"
             android:layout_weight="1" />
     </LinearLayout>
 

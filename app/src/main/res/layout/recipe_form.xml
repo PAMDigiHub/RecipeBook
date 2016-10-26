@@ -49,7 +49,7 @@
         <fragment
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:name="com.benoitarsenault.recipebook.SimpleListFragment"
+            android:name="com.benoitarsenault.recipebook.fragments.SimpleListFragment"
             android:id="@+id/recipe_form_fragment_ingredients"
             tools:layout="@layout/fragment_simple_list"
             android:layout_weight="100" />
@@ -57,7 +57,7 @@
         <fragment
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:name="com.benoitarsenault.recipebook.SimpleListFragment"
+            android:name="com.benoitarsenault.recipebook.fragments.SimpleListFragment"
             android:id="@+id/recipe_form_fragment_steps"
             tools:layout="@layout/fragment_simple_list"
             android:layout_weight="50" />

@@ -1,4 +1,4 @@
-package com.benoitarsenault.recipebook;
+package com.benoitarsenault.recipebook.fragments;
 
 
 import android.os.Bundle;
@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.benoitarsenault.recipebook.R;
 import com.benoitarsenault.recipebook.model.Recipe;
 import com.benoitarsenault.recipebook.model.RecipesProvider;
 
@@ -22,7 +23,7 @@ public class PresentationFragment extends android.support.v4.app.Fragment {
 
     private Recipe recipe;
     private int currentStepIndex;
-    PresentationFragmentListener listener;
+    private PresentationFragmentListener listener;
 
     public static PresentationFragment newInstance(int recipeId, int currentStepIndex) {
 
@@ -37,11 +38,9 @@ public class PresentationFragment extends android.support.v4.app.Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-
         int recipeId = getArguments().getInt(ARG_RECIPE_ID);
         currentStepIndex = getArguments().getInt(ARG_CURRENT_STEP_ID);
         recipe = RecipesProvider.getInstance().getItemById(recipeId, getActivity());
-
         listener = (PresentationFragmentListener) getActivity();
 
         super.onCreate(savedInstanceState);

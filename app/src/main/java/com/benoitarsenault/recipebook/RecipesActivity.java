@@ -58,7 +58,6 @@ public class RecipesActivity extends AppCompatActivity {
             sortOrder = SortOrder.ASC;
         }
 
-
         adapter = new RecipesAdapter(RecipesActivity.this, RecipesProvider.getInstance().getOrderedRecipes(RecipesActivity.this, searchCriteria, sortOrder));
         recipeListView = (ListView) findViewById(R.id.recipe_listview);
         recipeListView.setAdapter(adapter);
@@ -160,7 +159,6 @@ public class RecipesActivity extends AppCompatActivity {
     private AdapterView.OnItemSelectedListener onSortSpinnerItemSelected = new AdapterView.OnItemSelectedListener() {
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
             sortOrder = SortOrder.createFromInt(position);
             refreshCursor();
         }
@@ -174,6 +172,4 @@ public class RecipesActivity extends AppCompatActivity {
         adapter.changeCursor(RecipesProvider.getInstance().getOrderedRecipes(this, searchCriteria, sortOrder));
         adapter.notifyDataSetChanged();
     }
-
-
 }

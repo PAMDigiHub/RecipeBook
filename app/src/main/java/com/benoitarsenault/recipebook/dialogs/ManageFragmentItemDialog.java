@@ -82,6 +82,7 @@ public class ManageFragmentItemDialog extends android.support.v4.app.DialogFragm
                 DeleteFragmentItemDialog dialog = DeleteFragmentItemDialog.newInstance(position);
                 dialog.setTargetFragment(ManageFragmentItemDialog.this,0);
                 dialog.show(getFragmentManager(),"delete");
+                dismiss();
             }
         });
 
@@ -98,7 +99,6 @@ public class ManageFragmentItemDialog extends android.support.v4.app.DialogFragm
     public interface ManageFragmentItemDialogListener {
         void manageFragmentItemDialogUpdateClick(String tag, int position, String newText);
         void manageFragmentItemDialogDeleteClick(String tag, int position);
-
     }
 
     public boolean isAllowEmptyText() {

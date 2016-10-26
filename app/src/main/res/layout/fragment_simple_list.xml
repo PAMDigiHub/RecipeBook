@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.benoitarsenault.recipebook.SimpleListFragment"
+    tools:context="com.benoitarsenault.recipebook.fragments.SimpleListFragment"
     android:orientation="vertical">
 
     <!-- TODO: Update blank fragment layout -->
@@ -19,6 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:srcCompat="@drawable/ic_add_circle_outline_black_24dp"
+        style="?android:attr/buttonBarButtonStyle"
         android:id="@+id/fragment_simple_list_add_button" />
 
     <ListView

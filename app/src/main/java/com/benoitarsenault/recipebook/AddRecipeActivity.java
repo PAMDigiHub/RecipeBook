@@ -1,8 +1,6 @@
 package com.benoitarsenault.recipebook;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -13,12 +11,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.benoitarsenault.recipebook.dialogs.DurationDialogFragment;
+import com.benoitarsenault.recipebook.fragments.SimpleListFragment;
 import com.benoitarsenault.recipebook.model.Recipe;
 import com.benoitarsenault.recipebook.model.RecipesProvider;
 
 import java.util.ArrayList;
 
-public class AddRecipeActivity extends AppCompatActivity implements SimpleListFragment.OnSimpleListFragmentInteractionListener, DurationDialogFragment.DurationDialogListener {
+public class AddRecipeActivity extends AppCompatActivity implements DurationDialogFragment.DurationDialogListener {
 
     private static final String TAG_DURATION = "duration";
     private static final String STATE_DURATION = "stateDuration";
@@ -39,10 +38,18 @@ public class AddRecipeActivity extends AppCompatActivity implements SimpleListFr
         setContentView(R.layout.activity_add_recipe);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        initLayout();
+
+        if(savedInstanceState!=null){
+            durationTextView.setText(savedInstanceState.getString(STATE_DURATION));
+            ingredientFragment.setItems(savedInstanceState.getStringArrayList(STATE_INGREDIENTS));
+            stepsFragment.setItems(savedInstanceState.getStringArrayList(STATE_STEPS));
+        }
+    }
+
+    private void initLayout() {
         nameTextView = (TextView) findViewById(R.id.recipe_form_name_edit_text);
 
         durationTextView = (TextView) findViewById(R.id.duration_textview);
@@ -54,9 +61,9 @@ public class AddRecipeActivity extends AppCompatActivity implements SimpleListFr
             }
         });
 
-        portionSpinner = (Spinner) findViewById(R.id.portion_spinner);
         spinnerAdapter = ArrayAdapter.createFromResource(AddRecipeActivity.this,R.array.portions_choices,android.R.layout.simple_spinner_item);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        portionSpinner = (Spinner) findViewById(R.id.portion_spinner);
         portionSpinner.setAdapter(spinnerAdapter);
 
         ingredientFragment = (SimpleListFragment) getSupportFragmentManager().findFragmentById(R.id.recipe_form_fragment_ingredients);
@@ -87,15 +94,6 @@ public class AddRecipeActivity extends AppCompatActivity implements SimpleListFr
                 }
             }
         });
-
-        if(savedInstanceState!=null){
-            //recipeId =  savedInstanceState.getInt(EXTRA_RECIPE_ID);
-            durationTextView.setText(savedInstanceState.getString(STATE_DURATION));
-            ingredientFragment.setItems(savedInstanceState.getStringArrayList(STATE_INGREDIENTS));
-            stepsFragment.setItems(savedInstanceState.getStringArrayList(STATE_STEPS));
-
-        }
-
     }
 
     @Override
@@ -106,11 +104,6 @@ public class AddRecipeActivity extends AppCompatActivity implements SimpleListFr
         outState.putStringArrayList(STATE_STEPS,stepsFragment.getItems());
 
         super.onSaveInstanceState(outState);
-    }
-
-    @Override
-    public void onSimpleListFragmentItemsChanged(int fragmentId) {
-
     }
 
     @Override

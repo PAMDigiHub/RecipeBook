@@ -1,6 +1,5 @@
 package com.benoitarsenault.recipebook;
 
-import android.location.GpsStatus;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -13,8 +12,10 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.benoitarsenault.recipebook.dialogs.PresentationLastPageDialog;
+import com.benoitarsenault.recipebook.fragments.PresentationFragment;
 import com.benoitarsenault.recipebook.model.Recipe;
 import com.benoitarsenault.recipebook.model.RecipesProvider;
+import com.benoitarsenault.recipebook.transformers.DepthPageTransformer;
 
 public class PresentationActivity extends AppCompatActivity implements PresentationFragment.PresentationFragmentListener, PresentationLastPageDialog.PresentationLastPageDialogListener {
 

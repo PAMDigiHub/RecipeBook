@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 
-import com.benoitarsenault.recipebook.PresentationFragment;
 import com.benoitarsenault.recipebook.R;
 
 /**
