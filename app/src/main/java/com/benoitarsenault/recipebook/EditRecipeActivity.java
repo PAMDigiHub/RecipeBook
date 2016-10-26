@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.benoitarsenault.recipebook.dialogs.DeleteRecipeDialogFragment;
 import com.benoitarsenault.recipebook.dialogs.DurationDialogFragment;
@@ -129,14 +130,19 @@ public class EditRecipeActivity extends AppCompatActivity implements SimpleListF
 
     @Override
     public void onUpdateRecipeDialogPositiveClick(String tag) {
-        recipe.setTitle(nameTextView.getText().toString());
-        recipe.setDuration(durationTextView.getText().toString());
-        recipe.setPortions((int) portionSpinner.getSelectedItemPosition() + 1);
-        recipe.setIngredients(ingredientFragment.getItems());
-        recipe.setSteps(stepsFragment.getItems());
 
-        RecipesProvider.getInstance().updateItem(recipe, this);
-        finish();
+        if(nameTextView.length()>0) {
+            recipe.setTitle(nameTextView.getText().toString());
+            recipe.setDuration(durationTextView.getText().toString());
+            recipe.setPortions((int) portionSpinner.getSelectedItemPosition() + 1);
+            recipe.setIngredients(ingredientFragment.getItems());
+            recipe.setSteps(stepsFragment.getItems());
+
+            RecipesProvider.getInstance().updateItem(recipe, this);
+            finish();
+        }else{
+            Toast.makeText(this, "Empty text is not allowed.", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
